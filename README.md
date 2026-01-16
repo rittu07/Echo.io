@@ -1,57 +1,99 @@
-# EchoMap - Cloud & Backend
-**v2.0 - Full Stack Edition**
+# 📡 EchoMap - Realtime Point Cloud Visualizer
 
-A persistent, real-time backend for the EchoMap scanner. This version enables multi-user viewing, cloud saving, and public sharing.
+> **A premium, web-based dashboard for visualizing environmental scans from ESP32, LiDAR, and Ultrasonic sensors.**
 
-## 🚀 Setup & Installation
+![Project Status](https://img.shields.io/badge/status-active-success.svg)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Tech](https://img.shields.io/badge/stack-Node.js%20%7C%20Three.js%20%7C%20WebSockets-00f2ff)
 
-### 1. Install Node.js
-You must have Node.js installed to run the backend.
-[Download Node.js](https://nodejs.org/) (LTS version recommended).
+EchoMap is a full-stack tool aimed at makers and roboticists. It receives distance data wirelessly via WebSockets and renders a live, interactive 3D point cloud of your environment.
 
-### 2. Install Dependencies
-Open a terminal in the `d:\point cloud` directory and run:
+## ✨ Features
+- **Real-Time Visualization**: Instant 3D rendering of incoming sensor data using **Three.js**.
+- **Dual Sensor Modes**:
+  - **Polar**: Perfect for spinning LIDARs or Servo + Ultrasonic setups (Angle + Distance).
+  - **Cartesian**: For advanced setups sending raw X, Y, Z coordinates.
+- **Save & Replay**:
+  - **Cloud Save**: Persist scans to the server (`.json`).
+  - **Export**: Download point clouds as `.PLY` files for MeshLab/Blender.
+  - **Gallery**: Browse and reload past scans instantly.
+- **WebSocket Relay**: Broadcasts sensor data to multiple connected clients simultaneously.
+- **Glassmorphism UI**: A sleek, dark-themed interface designed for optimal readability.
 
-```bash
-npm install
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- [Node.js](https://nodejs.org/) (v14 or higher)
+- An ESP32 or similar microcontroller with a distance sensor.
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/echomap.git
+   cd echomap
+   ```
+
+2. **Install Dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Start the Server**
+   ```bash
+   npm start
+   ```
+
+4. **Open the Dashboard**
+   Navigate to `http://localhost:3000` in your browser.
+
+---
+
+## 🔌 Hardware Setup (ESP32)
+
+Your ESP32 should act as a WebSocket Client connecting to this server, OR as a WebSocket Server that this dashboard connects to. The dashboard supports **both** (Use "Relay Mode" if connecting ESP32 to this server).
+
+### Data Format
+Send your data as a JSON string over the WebSocket connection.
+
+**Option A: Polar (Servo + Ultrasonic/Lidar)**
+```json
+{
+  "angle": 45.5,   // Degrees
+  "distance": 120  // Centimeters/Millimeters
+}
 ```
 
-### 3. Run the Server
-Start the backend server:
-```bash
-npm start
+**Option B: Cartesian (XYZ)**
+```json
+{
+  "x": 10.5,
+  "y": 5.0,
+  "z": -2.0
+}
 ```
 
-- The server will run at `http://localhost:3000`.
-- The WebSocket stream is available at `ws://localhost:3000`.
+---
 
-## 🌐 How to "Publish to All People"
-To share your local server with the world (without complex router port forwarding), use **Ngrok** or **Cloudflare Tunnel**.
+## 🌍 Public Hosting (Optional)
+Want to share your scanner with friends? You can expose your local server using **Ngrok**:
 
-### Option A: Using Ngrok (Easiest)
-1.  [Download ngrok](https://ngrok.com/download) and sign up.
-2.  Run this command in a new terminal:
-    ```bash
-    ngrok http 3000
-    ```
-3.  Ngrok will give you a public URL (e.g., `https://abcd-123.ngrok-free.app`). Send this link to anyone!
-4.  **Important**: On the public site, users should connect to `wss://abcd-123.ngrok-free.app` (wss for secure WebSocket).
+1. Install [Ngrok](https://ngrok.com/).
+2. Run: `ngrok http 3000`
+3. Share the generated HTTPS URL!
 
-### Option B: Deploy to Render / Glitch
-You can upload this code to a service like Render.com (Web Service mode) or Glitch.com.
-- **Render**: Connect your GitHub repo. Set Build Command: `npm install`, Start Command: `npm start`.
+---
 
-## 📡 Updated Connection Guide
-1.  **ESP32**:
-    - If using **Relay Mode** (recommended), program your ESP32 to Connect as a Client to your computer's IP: `ws://YOUR_COMPUTER_IP:3000`.
-    - If using **Direct Mode**, the ESP32 hosts the server, and you connect the web app to `ws://ESP32_IP/ws`.
+## 🛠️ Tech Stack
+- **Frontend**: HTML5, Vanilla CSS (Glassmorphism), JavaScript (ES Modules).
+- **3D Engine**: [Three.js](https://threejs.org/).
+- **Backend**: Node.js, Express.
+- **Communication**: Native WebSockets (`ws` library).
 
-2.  **Web Dashboard**:
-    - By default, it connects to `ws://localhost:3000`.
-    - Click "Save to Server" to persist your scans to the `scans/` folder.
-    - Click "Gallery" to view past saved scans.
+## 📄 License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 📂 Project Structure
-- `server.js`: The backend (Express + WebSocket relay).
-- `public/`: The frontend website (HTML/CSS/JS).
-- `scans/`: Folder where JSON scans are saved.
+---
+*Created with ❤️ for the Maker Community.*
