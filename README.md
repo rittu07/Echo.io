@@ -2,9 +2,6 @@
 
 > **A premium, web-based dashboard for visualizing environmental scans from ESP32, LiDAR, and Ultrasonic sensors.**
 
-![Project Status](https://img.shields.io/badge/status-active-success.svg)
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Tech](https://img.shields.io/badge/stack-Node.js%20%7C%20Three.js%20%7C%20WebSockets-00f2ff)
 
 EchoMap is a full-stack tool aimed at makers and roboticists. It receives distance data wirelessly via WebSockets and renders a live, interactive 3D point cloud of your environment.
 
@@ -92,8 +89,5 @@ Want to share your scanner with friends? You can expose your local server using 
 - **Backend**: Node.js, Express.
 - **Communication**: Native WebSockets (`ws` library).
 
-## 📄 License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
----
-*Created with ❤️ for the Maker Community.*
+
