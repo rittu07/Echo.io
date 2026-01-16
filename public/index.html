@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EchoMap | Environmental Point Cloud</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Three.js Import Map -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar / Control Panel -->
+        <aside class="sidebar glass-panel">
+            <div class="brand">
+                <h1>EchoMap<span class="dot">.</span>io</h1>
+                <p class="subtitle">LiDAR & Ultrasonic Viz</p>
+            </div>
+
+            <div class="control-group">
+                <label for="ws-url">Connection</label>
+                <div class="input-row">
+                    <input type="text" id="ws-url" value="ws://localhost:3000" placeholder="ws://IP/ws">
+                    <button id="btn-connect" class="btn primary">Connect</button>
+                </div>
+                <div class="status-indicator">
+                    <div class="led" id="connection-led"></div>
+                    <span id="connection-status">Disconnected</span>
+                    <small style="margin-left:auto; opacity:0.5; font-size: 0.7em;">RELAY MODE</small>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="tab-container">
+                    <button class="tab-btn active" id="tab-live">Live View</button>
+                    <button class="tab-btn" id="tab-gallery">Gallery</button>
+                </div>
+            </div>
+
+            <!-- Live Controls -->
+            <div id="panel-live" class="control-panel active">
+                <div class="control-group">
+                    <label>Data Stats</label>
+                    <div class="stat-box">
+                        <span class="stat-label">Points</span>
+                        <span class="stat-value" id="point-count">0</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label>Controls</label>
+                    <button id="btn-clear" class="btn secondary">Clear Map</button>
+                    <button id="btn-snap-server" class="btn secondary"
+                        style="color:var(--primary); border-color:var(--primary);">Save to Server</button>
+                    <button id="btn-save" class="btn secondary">Export Local (.ply)</button>
+                    <button id="btn-toggle-auto-rotate" class="btn toggle">Auto Rotate: OFF</button>
+                </div>
+
+                <div class="control-group">
+                    <label>Sensor Config</label>
+                    <div class="input-row">
+                        <select id="sensor-type" class="select-input">
+                            <option value="polar">Polar (Angle, Dist)</option>
+                            <option value="cartesian">Cartesian (X, Y, Z)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gallery Controls -->
+            <div id="panel-gallery" class="control-panel" style="display:none;">
+                <div class="control-group">
+                    <label>Saved Scans</label>
+                    <div id="gallery-list" class="gallery-list">
+                        <div class="gallery-item-empty">No scans found.</div>
+                    </div>
+                    <button id="btn-refresh-gallery" class="btn secondary small">Refresh List</button>
+                </div>
+            </div>
+
+
+            <div class="log-panel">
+                <label>Log</label>
+                <div id="console-output" class="console">
+                    <div class="log-line system">System initialized.</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Viewport -->
+        <main class="viewport">
+            <!-- Overlay UI -->
+            <div class="overlay-top">
+                <div class="live-readout glass-panel">
+                    <span class="label">LIVE FEED</span>
+                    <canvas id="signal-canvas" width="200" height="40"></canvas>
+                </div>
+            </div>
+
+            <div id="canvas-container"></div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="script.js"></script>
+</body>
+
+</html>
